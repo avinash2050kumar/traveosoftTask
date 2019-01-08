@@ -19,6 +19,13 @@ const travelData = [
     tavelDate: "12-Jan-2019",
     modeOfTravel: "Bus",
     PNR: "57f7800"
+  },
+  {
+    fromCity: "DRP",
+    toCity: "JPI",
+    tavelDate: "14-Jul-2019",
+    modeOfTravel: "Train",
+    PNR: "5700342"
   }
 ];
 
