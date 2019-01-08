@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { View, Text, Dimensions, Button, ScrollView } from "react-native";
 import styled from "styled-components";
 
-import travelData from "../data";
-import CarousalCard from "../components/CarousalCard";
+import Carousal from "./Carousal";
 
 const Scroll = styled.ScrollView`
   background-color: #e6f0ff;
@@ -30,10 +29,11 @@ export default class Home extends Component {
   };
 
   componentWillMount() {
+    // Setting state because we want to render first time at device resolution
     const { width, height } = Dimensions.get("window");
     this.setState({
       value: {
-        width: parseInt(width - 32)
+        width: parseInt(width - 32) // -32 because 16 padding both side
       }
     });
   }
@@ -63,7 +63,10 @@ export default class Home extends Component {
       }
       this.setState({ error: "width and height is larger than screen size" });
     }
-    this.setState({ error: "Please fill all details" });
+    this.setState({
+      error:
+        "Please fill all details or may be width is more than your device resolution "
+    });
   };
 
   render() {
@@ -71,28 +74,35 @@ export default class Home extends Component {
     const message = `Your device can support below ${parseInt(
       width - 32
     )}w * ${parseInt(height - 32)}h`;
+
     return (
       <Scroll>
         <ScreenArea style={{ padding: 16 }}>
-          {this.state.value && (
+          {/*{this.state.value && (
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              pagingEnabled={true}
               style={{
                 width: this.state.value.width,
                 height: this.state.value.height
               }}
             >
               {travelData.map((data, index) => (
-                <CarousalCard
-                  key={index}
-                  item={data}
-                  width={this.state.value.width}
-                  height={this.state.value.height}
-                />
+                  <CarousalCard
+                      key={index}
+                      item={data}
+                      width={this.state.value.width}
+                      height={this.state.value.height}
+                  />
               ))}
             </ScrollView>
-          )}
+          )}*/}
+
+          <Carousal
+            width={this.state.value.width}
+            height={this.state.value.height}
+          />
           <View>
             <View
               style={{
@@ -128,9 +138,11 @@ export default class Home extends Component {
             />
           </View>
           {this.state.error === undefined ? (
-            <Text>{message}</Text>
+            <Text style={{ color: "red", fontSize: 18 }}>{message}</Text>
           ) : (
-            <Text>{this.state.error}</Text>
+            <Text style={{ color: "red", fontSize: 18 }}>
+              {this.state.error}
+            </Text>
           )}
         </ScreenArea>
       </Scroll>
